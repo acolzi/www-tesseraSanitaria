@@ -1,0 +1,2644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+  version="3.1" 
+  metadata-complete="false"  
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--  INVIO TS STANDALONE     --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <jsp-config> 
+    <!-- ************************ --> 
+    <!-- ************************ --> 
+    <!-- GESTIONE UTF-8 --> 
+    <!-- ************************ --> 
+    <!-- ************************ -->
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <page-encoding>UTF-8</page-encoding>
+    </jsp-property-group>
+    <!-- ************************ --> 
+    <!-- ************************ --> 
+    <!--  TAGLIB ABLIA --> 
+    <!-- ************************ --> 
+    <!-- ************************ -->
+    <taglib>
+      <taglib-uri>ABLIATAGS</taglib-uri>
+      <taglib-location>/WEB-INF/ablia.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--CharsetFilter start--> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <filter>
+    <filter-name>CharsetFilter</filter-name>
+    <filter-class>com.ablia.servlet.CharsetFilter</filter-class>
+    <init-param>
+      <param-name>requestEncoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharsetFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--  DESCRIZIONE WEB APPLICATION --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <display-name>INVIO TS STANDALONE</display-name>
+  <description> </description>
+  <context-param>
+    <param-name>productInfo</param-name>
+    <param-value>INVIO TS STANDALONE</param-value>
+    <description> </description>
+  </context-param>
+  <context-param>
+    <param-name>productLogo</param-name>
+    <param-value>INVIO TS STANDALONE</param-value>
+    <description> </description>
+  </context-param>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--  SICUREZZA --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <context-param>
+    <param-name>loginPage</param-name>
+    <param-value>/admin/menu/menu.jsp</param-value>
+    <description>Pagina JSP o servlet per far apparire la pagina di logon</description>
+  </context-param>
+  <context-param>
+    <param-name>secureServlet</param-name>
+    <param-value>true</param-value>
+    <description> true: web application con implementata la sicurezza false 
+      o nessun parametro: NO SICUREZZA </description>
+  </context-param>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--  DEBUG --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <context-param>
+    <param-name>debugLevel</param-name>
+    <param-value>5</param-value>
+    <description> 0 nessun messaggio 0-5 tutti tranne le eccezzioni >5 tutti </description>
+  </context-param>
+  <context-param>
+    <param-name>logFile</param-name>
+    <param-value>/var/log/fisio_debug.log</param-value>
+    <description> File di log </description>
+  </context-param>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--  IMPOSTAZIONI DATABASE   E APPLPARM    --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <context-param>
+    <param-name>useLogonCookie</param-name>
+    <param-value>false</param-value>
+    <description> True se viene riconosciuto l'utente tramite un cooke </description>
+  </context-param>
+  <context-param>
+    <param-name>dbPropertyFile</param-name>
+    <param-value>comites</param-value>
+    <description> File di propriet� degli oggetti dbadapter per questa webapplication </description>
+  </context-param>
+  <context-param>
+    <param-name>dbDriver</param-name>
+    <param-value>17</param-value>
+    <description> Driver database. 5 corrisponde a mysql </description>
+  </context-param>
+  <context-param>
+    <param-name>database</param-name>
+    <param-value>//localhost/comites</param-value>
+    <description> Percorso database
+      //localhost/ciatti
+      ruggiero
+      //192.168.42.250/ciatti </description>
+  </context-param>
+  <context-param>
+    <param-name>catalog</param-name>
+    <param-value>comites</param-value>
+    <description>per mysql8 il nome del db</description>
+  </context-param>
+  <context-param>
+    <param-name>user</param-name>
+    <param-value>root</param-value>
+    <description> Username login database </description>
+  </context-param>
+  <context-param>
+    <param-name>password</param-name>
+    <param-value>root</param-value>
+    <description> Password login database </description>
+  </context-param>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <context-param>
+    <param-name>initialCons</param-name>
+    <param-value>1</param-value>
+    <description>Numero di connessioni iniziali del connection pool</description>
+  </context-param>
+  <context-param>
+    <param-name>maxCons</param-name>
+    <param-value>50</param-value>
+    <description>Numero massimo di connessioni istanziate dal connection 
+      pool</description>
+  </context-param>
+  <context-param>
+    <param-name>timeout</param-name>
+    <param-value>300</param-value>
+    <description>Millisecondi di timeout dopo che non ho trovato connessioni 
+      libere e sono arrivato a maxCons</description>
+  </context-param>
+  <context-param>
+    <param-name>connectionLifeTime</param-name>
+    <param-value>100</param-value>
+    <description>Minuti massimi dopo la quale la connesione � considerata non valida. Se impostato a 0, non faccio il controllo. 
+      Se la propriet� non c'� viene impostato a 480 minuti= 8 ore</description>
+  </context-param>
+  <context-param>
+    <param-name>connectionLifeTime</param-name>
+    <param-value>30</param-value>
+    <description> Minuti massimi dopo la quale la connesione � considerata non valida. Se impostato a 0, non faccio il controllo. 
+      Se la propriet� non c'� viene impostato a 480 minuti= 8 ore </description>
+  </context-param>
+  <context-param>
+    <param-name>maxConnectionHits</param-name>
+    <param-value>3000</param-value>
+    <description>numero di connessioni massime oltre il quale la connessione viene liberata </description>
+  </context-param>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- IMPOSTAZIONI VARIE   --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <context-param>
+    <param-name>pageRow</param-name>
+    <param-value>12</param-value>
+    <description> salto pagina </description>
+  </context-param>
+  <context-param>
+    <param-name>cssPath</param-name>
+    <param-value>/_css</param-value>
+    <description> </description>
+  </context-param>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- SERVLET ALIASES             --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+<!-- vecchia versione -->
+	  <servlet>
+    <servlet-name> MenuSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.MenuSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> MenuSvlt </servlet-name>
+    <url-pattern> /admin/menu/Menu.abl </url-pattern>
+  </servlet-mapping>	
+	<!-- nuova versione -->
+  <servlet>
+    <servlet-name>Menu4Svlt</servlet-name>
+    <servlet-class>com.ablia.stan.servlet.Menu4Svlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Menu4Svlt</servlet-name>
+    <url-pattern>/admin/menuLte/Menu4.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Menu4Svlt</servlet-name>
+    <url-pattern>/admin/menuTex/Menu4.abl</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>IndexSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.IndexSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IndexSvlt</servlet-name>
+    <url-pattern>/admin/menuLte/Index.abl</url-pattern>
+  </servlet-mapping>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--TOOL LTE             --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <servlet>
+    <servlet-name>ToolLteSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.ToolLteSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ToolLteSvlt</servlet-name>
+    <url-pattern>/admin/menu/ToolLte.abl</url-pattern>
+  </servlet-mapping>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- INIT                     --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <servlet>
+    <servlet-name>InitCrontabServlet</servlet-name>
+    <servlet-class>com.ablia.servlet.InitCrontabServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <!--  UPDATE ABLIA CORE  -->
+  <servlet>
+    <servlet-name>InitUpdateDbSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.InitUpdateDbSvlt</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <!--  UPDATE ABLIA COMMON  -->
+  <servlet>
+    <servlet-name>InitUpdateDbCommonSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.InitUpdateDbSvlt</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <!--  UPDATE CLI SISTEMA TS  -->
+  <servlet>
+    <servlet-name>InitUpdateDbTrSvlt</servlet-name>
+    <servlet-class>com.ablia.ts.servlet.InitUpdateDbSvlt</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <!--  STATUS MSG  -->
+  <servlet>
+    <servlet-name>StatusMsgSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.StatusMsgSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StatusMsgSvlt</servlet-name>
+    <url-pattern>/admin/menu/StatusMsg.abl</url-pattern>
+  </servlet-mapping>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- REWRITE URL           --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <servlet>
+    <servlet-name>RewriteUrlSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.RewriteUrlSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RewriteUrlSvlt</servlet-name>
+    <url-pattern>*.jspx</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RewriteUrlSvlt</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- REDIR          --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <servlet>
+    <servlet-name>RedirAdminSvlt</servlet-name>
+    <servlet-class>com.ablia.redir.servlet.RedirAdminSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RedirAdminSvlt</servlet-name>
+    <url-pattern>/Redir.abl</url-pattern>
+  </servlet-mapping>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--      HELP  --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--    -->
+  <servlet>
+    <servlet-name>HelpSvlt</servlet-name>
+    <servlet-class>com.ablia.help.servlet.HelpSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelpSvlt</servlet-name>
+    <url-pattern>/admin/help/v/H.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>HelpASvlt</servlet-name>
+    <servlet-class>com.ablia.help.servlet.HelpASvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelpASvlt</servlet-name>
+    <url-pattern>/admin/help/Help.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ExcludeKeywordsSvlt</servlet-name>
+    <servlet-class>com.ablia.help.servlet.ExcludeKeywordsSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExcludeKeywordsSvlt</servlet-name>
+    <url-pattern>/admin/help/ExcludeKeywords.abl</url-pattern>
+  </servlet-mapping>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--      CONFIGURAZIONI   ADMIN --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--    -->
+  <servlet>
+    <servlet-name>ParmSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.ParmSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ParmSvlt</servlet-name>
+    <url-pattern>/admin/config/Parm.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>AccessSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.AccessSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AccessSvlt</servlet-name>
+    <url-pattern>/admin/config/Access.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TableDescSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.TableDescSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TableDescSvlt</servlet-name>
+    <url-pattern>/admin/config/TableDesc.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>AccessGroupSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.AccessGroupSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AccessGroupSvlt</servlet-name>
+    <url-pattern>/admin/config/AccessGroup.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>BlacklistSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.BlacklistSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BlacklistSvlt</servlet-name>
+    <url-pattern>/admin/config/Blacklist.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>LogSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.LogSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogSvlt</servlet-name>
+    <url-pattern>/admin/config/Log.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogSvlt</servlet-name>
+    <url-pattern>/admin/config/Crontab.log</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>LogMailSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.LogMailSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogMailSvlt</servlet-name>
+    <url-pattern>/admin/config/LogMail.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>UserProfileSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.UserProfileSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserProfileSvlt</servlet-name>
+    <url-pattern>/admin/config/UserProfile.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>UsersSvlt</servlet-name>
+    <servlet-class>com.ablia.stan.servlet.UsersSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UsersSvlt</servlet-name>
+    <url-pattern>/admin/config/Users.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoPostazioneSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.TipoPostazioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoPostazioneSvlt</servlet-name>
+    <url-pattern>/admin/config/TipoPostazione.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>PostazioneSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.PostazioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PostazioneSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Postazione.abl</url-pattern>
+  </servlet-mapping>
+  <!-- -->
+  <servlet>
+    <servlet-name>MailerSvlt</servlet-name>
+    <servlet-class>com.ablia.cc.servlet.CCMailer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MailerSvlt</servlet-name>
+    <url-pattern>/Mailer.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>HelpSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.HelpSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelpSvlt</servlet-name>
+    <url-pattern>/admin/config/Help.abl</url-pattern>
+  </servlet-mapping>
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--      PRESENZE  --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--    -->
+  <servlet>
+    <servlet-name> PresenzaSvlt </servlet-name>
+    <servlet-class> com.ablia.pre.servlet.PresenzaSvlt </servlet-class>
+  </servlet>
+  <!--    --> 
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> PresenzaSvlt </servlet-name>
+    <url-pattern> /admin/pre/Presenza.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> PresenzaSvlt </servlet-name>
+    <url-pattern> /admin/menu/Presenza.abl </url-pattern>
+  </servlet-mapping>
+  <!--    --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--      AUDIO       --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--    -->
+  <servlet>
+    <servlet-name> AbliaVrSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.VrSvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AbliaVrSvlt</servlet-name>
+    <url-pattern> /admin/ref/AbliaVr.abl </url-pattern>
+  </servlet-mapping>
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--      ANAGRAFICHE       --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--    -->
+  <servlet>
+    <servlet-name>CliforSvlt</servlet-name>
+    <servlet-class>com.ablia.tr.servlet.CliforSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CliforSvlt</servlet-name>
+    <url-pattern>/admin/anag/Clifor.abl</url-pattern>
+  </servlet-mapping>
+  
+  <!--    -->
+  <servlet>
+    <servlet-name>RubricaSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.RubricaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RubricaSvlt</servlet-name>
+    <url-pattern>/admin/anag/Rubrica.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>FornitoreSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.FornitoreSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FornitoreSvlt</servlet-name>
+    <url-pattern>/admin/anag/Fornitore.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>IvaSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.IvaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IvaSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Iva.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ListinoSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.ListinoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListinoSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Listino.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ComuneSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.ComuneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ComuneSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Comune.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>RegioneSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.RegioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegioneSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Regione.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>NazioneSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.NazioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NazioneSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Nazione.abl</url-pattern>
+  </servlet-mapping>
+	  <servlet-mapping>
+    <servlet-name>NazioneSvlt</servlet-name>
+    <url-pattern>/admin/anag/config/Nazione.abl</url-pattern>
+  </servlet-mapping>
+  
+  <!--   
+  <servlet>
+    <servlet-name>TipoPagamentoSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.TipoPagamentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoPagamentoSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/TipoPagamento.abl</url-pattern>
+  </servlet-mapping>
+ -->
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoContrattoSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.TipoContrattoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoContrattoSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/TipoContratto.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ContrattoSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.ContrattoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ContrattoSvlt</servlet-name>
+    <url-pattern>/admin/anag/Contratto.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>VettoreSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.VettoreSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VettoreSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Vettore.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>MagFisicoSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.MagFisicoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MagFisicoSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/MagFisico.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>EsercizioSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.EsercizioSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EsercizioSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Esercizio.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>AspettoSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.AspettoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AspettoSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Aspetto.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>CausaleTrasportoSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.CausaleTrasportoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CausaleTrasportoSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/CausaleTrasporto.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ContatoreSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.ContatoreSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ContatoreSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Contatore.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>RegCassaSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.RegCassaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegCassaSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/RegCassa.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>PortoSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.PortoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PortoSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Porto.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoAllegatoCliforSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.TipoAllegatoCliforSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoAllegatoCliforSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/TipoAllegatoClifor.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  
+  <servlet>
+    <servlet-name>TipoFornitoreSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.TipoFornitoreSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoFornitoreSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/TipoFornitore.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  
+  <servlet>
+    <servlet-name>TipoCliforSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.TipoCliforSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoCliforSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/TipoClifor.abl</url-pattern>
+  </servlet-mapping>
+  <!-- -->
+  
+  <servlet>
+    <servlet-name>FestivitaSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.FestivitaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FestivitaSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Festivita.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  
+  <servlet>
+    <servlet-name>GlossarioSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.GlossarioSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GlossarioSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/Glossario.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  
+  <servlet>
+    <servlet-name>TipoGlossarioSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.TipoGlossarioSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoGlossarioSvlt</servlet-name>
+    <url-pattern>/admin/anagConfig/TipoGlossario.abl</url-pattern>
+  </servlet-mapping>
+  <!--    --> 
+  
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- NEWS          --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  <servlet>
+    <servlet-name>NewsSvlt</servlet-name>
+    <servlet-class>com.ablia.news.servlet.admin.NewsSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewsSvlt</servlet-name>
+    <url-pattern>/admin/news/News.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>NewsUsersSvlt</servlet-name>
+    <servlet-class>com.ablia.news.servlet.admin.NewsUsersSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewsUsersSvlt</servlet-name>
+    <url-pattern>/admin/news/NewsUsers.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoNewsSvlt</servlet-name>
+    <servlet-class>com.ablia.news.servlet.admin.TipoNewsSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoNewsSvlt</servlet-name>
+    <url-pattern>/admin/news/TipoNews.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>NewsletterSvlt</servlet-name>
+    <servlet-class>com.ablia.news.servlet.admin.NewsletterSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewsletterSvlt</servlet-name>
+    <url-pattern>/admin/news/Newsletter.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>GetNewsAttachSvlt</servlet-name>
+    <servlet-class>com.ablia.news.servlet.GetNewsAttachSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetNewsAttachSvlt</servlet-name>
+    <url-pattern>/_news/_attach/*</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>NewsWebSvlt</servlet-name>
+    <servlet-class>com.ablia.news.servlet.NewsSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewsWebSvlt</servlet-name>
+    <url-pattern>/News.abl</url-pattern>
+  </servlet-mapping>
+
+  <!--  <servlet-mapping>
+    <servlet-name> NewsletterWebSvlt</servlet-name>
+    <url-pattern> /Newsletter.abl </url-pattern>
+  </servlet-mapping> 
+  --> 
+  
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!-- NEWSLETTER       --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->
+  
+  <servlet>
+    <servlet-name>MailNewsletterSvlt</servlet-name>
+    <servlet-class>com.ablia.newsletter.servlet.admin.MailNewsletterSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MailNewsletterSvlt</servlet-name>
+    <url-pattern>/admin/newsletter/MailNewsletter.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>MailNewsletterWebSvlt</servlet-name>
+    <servlet-class>com.ablia.newsletter.servlet.MailNewsletterSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MailNewsletterWebSvlt</servlet-name>
+    <url-pattern>/MailNewsletter.abl</url-pattern>
+  </servlet-mapping>
+  
+  <!--    -->
+  <servlet>
+    <servlet-name>CodaMessaggiSvlt</servlet-name>
+    <servlet-class>com.ablia.newsletter.servlet.admin.CodaMessaggiSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CodaMessaggiSvlt</servlet-name>
+    <url-pattern>/admin/newsletter/CodaMessaggi.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>CodaMessaggiOpenMailSvlt</servlet-name>
+    <servlet-class>com.ablia.newsletter.servlet.CodaMessaggiOpenMailSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CodaMessaggiOpenMailSvlt</servlet-name>
+    <url-pattern>/_img/_imgMsg/logo/*</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TemplateMsgSvlt</servlet-name>
+    <servlet-class>com.ablia.newsletter.servlet.admin.TemplateMsgSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TemplateMsgSvlt</servlet-name>
+    <url-pattern>/admin/newsletter/TemplateMsg.abl</url-pattern>
+  </servlet-mapping>
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--      CONTABILITA       --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--    -->
+  <servlet>
+    <servlet-name>DocumentoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DocumentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentoSvlt</servlet-name>
+    <url-pattern>/admin/contab/Documento.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DocumentoSvlt</servlet-name>
+    <url-pattern>/admin/contab/Documento.abl.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>DocumentoRipSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DocumentoRipSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentoRipSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoRip.abl</url-pattern>
+  </servlet-mapping>
+  
+  <!--    -->
+  <servlet>
+    <servlet-name>DocumentoPreSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DocumentoPreSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentoPreSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoPre.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DocumentoPreSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoPre.abl.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>DocumentoOrdSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DocumentoOrdSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentoOrdSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoOrd.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DocumentoOrdSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoOrd.abl.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>RigaDocumentoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.RigaDocumentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RigaDocumentoSvlt</servlet-name>
+    <url-pattern>/admin/contab/RigaDocumento.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>DocumentoScadenzaSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DocumentoScadenzaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentoScadenzaSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoScadenza.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DocumentoScadenzaSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoScadenza.abl.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>DocumentoScadenzaAutoOrdSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DocumentoScadenzaAutoOrdSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentoScadenzaAutoOrdSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoScadenzaAutoOrd.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DocumentoScadenzaAutoOrdSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoScadenzaAutoOrd.abl.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>DocumentoScadenzaAutoComboSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DocumentoScadenzaAutoComboSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentoScadenzaAutoComboSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoScadenzaAutoCombo.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DocumentoScadenzaAutoComboSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoScadenzaAutoCombo.abl.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>DistintaRibaSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DistintaRibaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DistintaRibaSvlt</servlet-name>
+    <url-pattern>/admin/contab/DistintaRiba.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DistintaRibaSvlt</servlet-name>
+    <url-pattern>/admin/contab/DistintaRiba.abl.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>CausaleMagazzinoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.CausaleMagazzinoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CausaleMagazzinoSvlt</servlet-name>
+    <url-pattern>/admin/contabConfig/CausaleMagazzino.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoDocumentoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.TipoDocumentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoDocumentoSvlt</servlet-name>
+    <url-pattern>/admin/contabConfig/TipoDocumento.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipologiaDocumentoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.TipologiaDocumentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipologiaDocumentoSvlt</servlet-name>
+    <url-pattern>/admin/contabConfig/TipologiaDocumento.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoStampaDocumentoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.TipoStampaDocumentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoStampaDocumentoSvlt</servlet-name>
+    <url-pattern>/admin/contabConfig/TipoStampaDocumento.abl</url-pattern>
+  </servlet-mapping>
+  <!-- -->
+  <servlet>
+    <servlet-name>GetIvaSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.GetIvaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetIvaSvlt</servlet-name>
+    <url-pattern>/admin/contab/GetIva.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>RegistroIvaSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.RegistroIvaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegistroIvaSvlt</servlet-name>
+    <url-pattern>/admin/contab/RegistroIva.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoAllegatoDocumentoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.TipoAllegatoDocumentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoAllegatoDocumentoSvlt</servlet-name>
+    <url-pattern>/admin/contabConfig/TipoAllegatoDocumento.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>MovimentoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.MovimentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MovimentoSvlt</servlet-name>
+    <url-pattern>/admin/contab/Movimento.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>BancaSvlt</servlet-name>
+    <servlet-class>com.ablia.anag.servlet.BancaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BancaSvlt</servlet-name>
+    <url-pattern>/admin/contabConfig/Banca.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>DocumentoPagamentoSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.DocumentoPagamentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentoPagamentoSvlt</servlet-name>
+    <url-pattern>/admin/contab/DocumentoPagamento.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>PianoContiSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.PianoContiSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PianoContiSvlt</servlet-name>
+    <url-pattern>/admin/contabConfig/PianoConti.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>CausaleContabileSvlt</servlet-name>
+    <servlet-class>com.ablia.contab.servlet.CausaleContabileSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CausaleContabileSvlt</servlet-name>
+    <url-pattern>/admin/contabConfig/CausaleContabile.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> TipoPersonaCaricoSvlt </servlet-name>
+    <servlet-class> com.ablia.anag.servlet.TipoPersonaCaricoSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> TipoPersonaCaricoSvlt </servlet-name>
+    <url-pattern> /admin/anagConfig/TipoPersonaCarico.abl </url-pattern>
+  </servlet-mapping>
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--      MAGAZZINO       --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--    -->
+  <servlet>
+    <servlet-name>ArticoloSvlt</servlet-name>
+    <!--   <servlet-class> com.ablia.art.servlet.ArticoloSvlt</servlet-class> -->
+    <servlet-class>com.ablia.cc.servlet.admin.ArticoloSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ArticoloSvlt</servlet-name>
+    <url-pattern>/admin/art/Articolo.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ArticoloSvlt</servlet-name>
+    <url-pattern>/admin/art/Articolo.abl.pdf</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ComponenteSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.ComponenteSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ComponenteSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Componente.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ArticoloVarianteSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.ArticoloVarianteSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ArticoloVarianteSvlt</servlet-name>
+    <url-pattern>/admin/art/ArticoloVariante.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>DisponibilitaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.DisponibilitaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisponibilitaSvlt</servlet-name>
+    <url-pattern>/admin/art/Disponibilita.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.TipoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Tipo.abl</url-pattern>
+  </servlet-mapping>
+  <!--   questa mi serve per l'ajst su articolo -->
+  <servlet-mapping>
+    <servlet-name>TipoSvlt</servlet-name>
+    <url-pattern>/admin/art/Tipo.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>GoogleCategorySvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.GoogleCategorySvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoogleCategorySvlt</servlet-name>
+    <url-pattern>/admin/artConfig/GoogleCategory.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>FamigliaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.FamigliaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FamigliaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Famiglia.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>SottoFamigliaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.SottoFamigliaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SottoFamigliaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/SottoFamiglia.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>CaratteristicaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.CaratteristicaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CaratteristicaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Caratteristica.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ListaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.ListaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Lista.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>MarcaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.MarcaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MarcaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Marca.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoAccessorioSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.TipoAccessorioSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoAccessorioSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/TipoAccessorio.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TagliaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.TagliaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TagliaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Taglia.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoTagliaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.TipoTagliaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoTagliaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/TipoTaglia.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipologiaArticoloSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.TipologiaArticoloSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipologiaArticoloSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/TipologiaArticolo.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>RepartoSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.RepartoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ColoreSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Colore.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>ColoreSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.ColoreSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RepartoSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Reparto.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TabellaTagliaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.TabellaTagliaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TabellaTagliaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/TabellaTaglia.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoAllegatoArticoloSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.TipoAllegatoArticoloSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoAllegatoArticoloSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/TipoAllegatoArticolo.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>VetrinaSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.VetrinaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VetrinaSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/Vetrina.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>StatoUsatoSvlt</servlet-name>
+    <servlet-class>com.ablia.art.servlet.StatoUsatoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StatoUsatoSvlt</servlet-name>
+    <url-pattern>/admin/artConfig/StatoUsato.abl</url-pattern>
+  </servlet-mapping>
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--      MAGAZZINO    filato   --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--  BANNER  ADMIN        --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--    -->
+  <servlet>
+    <servlet-name>BannerSvltA</servlet-name>
+    <servlet-class>com.ablia.banner.admin.servlet.BannerSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BannerSvltA</servlet-name>
+    <url-pattern>/admin/banner/Banner.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>TipoBannerSvltA</servlet-name>
+    <servlet-class>com.ablia.banner.admin.servlet.TipoBannerSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TipoBannerSvltA</servlet-name>
+    <url-pattern>/admin/banner/TipoBanner.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name>BannerSvlt</servlet-name>
+    <servlet-class>com.ablia.banner.servlet.BannerSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BannerSvlt</servlet-name>
+    <url-pattern>/Banner.abl</url-pattern>
+  </servlet-mapping>
+  <!--    --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--      ANAGRAFICHE   STAN    --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--    -->
+  <servlet>
+    <servlet-name> ClienteSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.ClienteSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> ClienteSvlt</servlet-name>
+    <url-pattern> /anagStan/Cliente.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> UslSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.UslSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> UslSvlt</servlet-name>
+    <url-pattern> /anagStan/Usl.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> MedicoCuranteSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.MedicoCuranteSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> MedicoCuranteSvlt</servlet-name>
+    <url-pattern> /anagStan/MedicoCurante.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> MedicoEsaminatoreSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.MedicoEsaminatoreSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> MedicoEsaminatoreSvlt</servlet-name>
+    <url-pattern> /anagStan/MedicoEsaminatore.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> TecnicoEsecutoreSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.TecnicoEsecutoreSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> TecnicoEsecutoreSvlt</servlet-name>
+    <url-pattern> /anagStan/TecnicoEsecutore.abl </url-pattern>
+  </servlet-mapping>
+  
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--      ANAGRAFICHE    CONFIG   --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--   -->
+  <servlet>
+    <servlet-name> StrumentoFSvlt</servlet-name>
+    <servlet-class> com.ablia.fisio.servlet.StrumentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> StrumentoFSvlt</servlet-name>
+    <url-pattern> /admin/configStan/Strumento.abl </url-pattern>
+  </servlet-mapping>
+  <!--   -->
+  <servlet>
+    <servlet-name> TerapiaFSvlt</servlet-name>
+    <servlet-class> com.ablia.fisio.servlet.TerapiaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> TerapiaFSvlt</servlet-name>
+    <url-pattern> /admin/configStan/Terapia.abl </url-pattern>
+  </servlet-mapping>
+  <!--   -->
+  <servlet>
+    <servlet-name> ContoSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.ContoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> ContoSvlt</servlet-name>
+    <url-pattern> /admin/configStan/Conto.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> ComuneStanSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.ComuneSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> ComuneStanSvlt</servlet-name>
+    <url-pattern> /anag/config/Comune.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RegioneSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RegioneSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RegioneSvlt</servlet-name>
+    <url-pattern> /admin/configStan/Regione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> TipoAziendaSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.TipoAziendaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> TipoAziendaSvlt</servlet-name>
+    <url-pattern> /admin/configStan/TipoAzienda.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> AssociazioneSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.AssociazioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> AssociazioneSvlt</servlet-name>
+    <url-pattern> /admin/configStan/Associazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> SpecializzazioneSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.SpecializzazioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> SpecializzazioneSvlt</servlet-name>
+    <url-pattern> /admin/configStan/Specializzazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> TipoMedicoSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.TipoMedicoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> TipoMedicoSvlt</servlet-name>
+    <url-pattern> /admin/configStan/TipoMedico.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> TipoPagamentoStanSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.TipoPagamentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> TipoPagamentoStanSvlt</servlet-name>
+    <url-pattern> /admin/configStan/TipoPagamento.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> BrancaEsameSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.BrancaEsameSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> BrancaEsameSvlt</servlet-name>
+    <url-pattern> /admin/configStan/BrancaEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> CategoriaEsameSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.CategoriaEsameSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> CategoriaEsameSvlt</servlet-name>
+    <url-pattern> /admin/configStan/CategoriaEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> TipoEsameSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.TipoEsameSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> TipoEsameSvlt</servlet-name>
+    <url-pattern> /admin/configStan/TipoEsame.abl </url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name> TipoEsameSvlt</servlet-name>
+    <url-pattern> /admin/configStaN/TipoEsame.abl.pdf </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> GruppoEsameSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.GruppoEsameSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> GruppoEsameSvlt</servlet-name>
+    <url-pattern> /admin/configStan/GruppoEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> MotivoEsenzioneSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.MotivoEsenzioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> MotivoEsenzioneSvlt</servlet-name>
+    <url-pattern> /admin/configStan/MotivoEsenzione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> CodiceEsenzioneSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.CodiceEsenzioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> CodiceEsenzioneSvlt</servlet-name>
+    <url-pattern> /admin/configStan/CodiceEsenzione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> EsenzioneSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.EsenzioneSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> EsenzioneSvlt</servlet-name>
+    <url-pattern> /admin/configStan/Esenzione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> PuntoEroganteSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.PuntoEroganteSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> PuntoEroganteSvlt</servlet-name>
+    <url-pattern> /admin/configStan/PuntoErogante.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> FestivitaStanSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.FestivitaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> FestivitaStanSvlt</servlet-name>
+    <url-pattern> /admin/configStan/Festivita.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> EgrMaxMinSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.EgrMaxMinSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> EgrMaxMinSvlt</servlet-name>
+    <url-pattern> /admin/configStan/EgrMaxMin.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> GravTipoMaxMinSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.GravTipoMaxMinSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> GravTipoMaxMinSvlt</servlet-name>
+    <url-pattern> /admin/configStan/GravTipoMaxMin.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> GravGraficoSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.GravGraficoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> GravGraficoSvlt</servlet-name>
+    <url-pattern> /admin/configStan/GravGrafico.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> GravParmDerivatiSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.GravParmDerivatiSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> GravParmDerivatiSvlt</servlet-name>
+    <url-pattern> /admin/configStan/GravParmDerivati.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> GravTipoMisuraSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.GravTipoMisuraSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> GravTipoMisuraSvlt</servlet-name>
+    <url-pattern> /admin/configStan/GravTipoMisura.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RecordSpaSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RecordSpaSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RecordSpaSvlt</servlet-name>
+    <url-pattern> /admin/configStan/RecordSpa.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> ModPagamentoStanSvlt</servlet-name>
+    <servlet-class> com.ablia.stan.servlet.ModPagamentoSvlt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> ModPagamentoStanSvlt</servlet-name>
+    <url-pattern> /admin/configStan/ModPagamento.abl </url-pattern>
+  </servlet-mapping>
+  
+  <!--    --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--     GESTIONE          --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--    -->
+  <servlet>
+    <servlet-name> AccettazioneSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.AccettazioneSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> AccettazioneSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Accettazione.abl </url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name> AccettazioneSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Accettazione.abl.pdf </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> ImpegnativaSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.ImpegnativaSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> ImpegnativaSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Impegnativa.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> GeneraDispoSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.GeneraDispoSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> GeneraDispoSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/GeneraDispo.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  
+  <servlet>
+    <servlet-name> GeneraPrenoCupSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.GeneraPrenoCupSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> GeneraPrenoCupSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/GeneraPrenoCup.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> CalDispoSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.CalDispoSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> CalDispoSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/CalDispo.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> DisponibilitaSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.DisponibilitaSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> DisponibilitaSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Disponibilita.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> PrenotazioneSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.PrenotazioneSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> PrenotazioneSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Prenotazione.abl </url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name> PrenotazioneSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Prenotazione.abl.pdf </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> PrenotazioneCRSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.PrenotazioneCRSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> PrenotazioneCRSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/PrenotazioneCR.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> FatturaSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.FatturaSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> FatturaSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Fattura.abl </url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name> FatturaSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Fattura.abl.pdf </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RigaFatturaSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RigaFatturaSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RigaFatturaSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/RigaFattura.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> FlussoFattSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.FlussoFattSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> FlussoFattSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/FlussoFatt.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> FlussoAccSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.FlussoAccSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> FlussoAccSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/FlussoAcc.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> AccFattSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.AccFattSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> AccFattSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/AccFatt.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> EsameSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.EsameSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> EsameSvlt</servlet-name>
+    <url-pattern> /admin/gestStan/Esame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> GetFileSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.GetFileSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/admin/ref/img/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/admin/ref/imgJpg/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/admin/ref/imgJpgSrc/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/admin/ref/word/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/admin/anag/word/*</url-pattern>
+  </servlet-mapping>
+  
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--     GESTIONE  fisio        --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--    -->
+  <servlet>
+    <servlet-name> AccettazioneFSvlt </servlet-name>
+    <servlet-class> com.ablia.fisio.servlet.AccettazioneSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> AccettazioneFSvlt</servlet-name>
+    <url-pattern> /admin/gestFisio/Accettazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> DisponibilitaFSvlt </servlet-name>
+    <servlet-class> com.ablia.fisio.servlet.DisponibilitaSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> DisponibilitaFSvlt</servlet-name>
+    <url-pattern> /admin/gestFisio/Disponibilita.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> PrenotazioneFSvlt </servlet-name>
+    <servlet-class> com.ablia.fisio.servlet.PrenotazioneSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> PrenotazioneFSvlt</servlet-name>
+    <url-pattern> /admin/gestFisio/Prenotazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> FatturaFSvlt </servlet-name>
+    <servlet-class> com.ablia.fisio.servlet.FatturaSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> FatturaFSvlt</servlet-name>
+    <url-pattern> /admin/gestFisio/Fattura.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RigaFatturaFSvlt </servlet-name>
+    <servlet-class> com.ablia.fisio.servlet.RigaFatturaSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RigaFatturaFSvlt</servlet-name>
+    <url-pattern> /admin/gestFisio/RigaFattura.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> AccFattFSvlt </servlet-name>
+    <servlet-class> com.ablia.fisio.servlet.AccFattSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> AccFattFSvlt</servlet-name>
+    <url-pattern> /admin/gestFisio/AccFatt.abl </url-pattern>
+  </servlet-mapping>
+  
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--      REFERTAZIONE     --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--    -->
+  <servlet>
+    <servlet-name> Idc9Svlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.Idc9Svlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> Idc9Svlt</servlet-name>
+    <url-pattern> /admin/ref/config/Idc9.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> Idc9Svlt</servlet-name>
+    <url-pattern> /admin/ref/Idc9.abl </url-pattern>
+  </servlet-mapping>
+  
+  <!--    -->
+  <servlet>
+    <servlet-name> ShortcutSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.ShortcutSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> ShortcutSvlt</servlet-name>
+    <url-pattern> /admin/ref/config/Shortcut.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> PostazioneSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.PostazioneSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> PostazioneSvlt</servlet-name>
+    <url-pattern> /admin/ref/config/Postazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> ArchivioImgSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.ArchivioImgSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> ArchivioImgSvlt</servlet-name>
+    <url-pattern> /admin/ref/config/ArchivioImg.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> ArchivioDvdSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.ArchivioDvdSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> ArchivioDvdSvlt</servlet-name>
+    <url-pattern> /admin/ref/config/ArchivioDvd.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RefertoSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RefertoSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RefertoSvlt</servlet-name>
+    <url-pattern> /admin/ref/Referto.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RefertoImgSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RefertoImgSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RefertoImgSvlt</servlet-name>
+    <url-pattern> /admin/ref/RefertoImg.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RefertoOldSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RefertoOldSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RefertoOldSvlt</servlet-name>
+    <url-pattern> /admin/ref/RefertoOld.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RefertoAutoSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RefertoAutoSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RefertoAutoSvlt</servlet-name>
+    <url-pattern> /admin/ref/RefertoAuto.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> EcoGravidanzaSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.EcoGravidanzaSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> EcoGravidanzaSvlt</servlet-name>
+    <url-pattern> /admin/ref/EcoGravidanza.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RefertoFooterSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RefertoFooterSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RefertoFooterSvlt</servlet-name>
+    <url-pattern> /admin/ref/config/RefertoFooter.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> AllegatoRefertiSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.AllegatoRefertiSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> AllegatoRefertiSvlt</servlet-name>
+    <url-pattern> /admin/ref/config/AllegatoReferti.abl </url-pattern>
+  </servlet-mapping>
+  
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--     REPORT          --> 
+  <!-- *********************  --> 
+  <!-- *********************  --> 
+  <!--    -->
+  <servlet>
+    <servlet-name> RepFlussiSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepFlussiSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepFlussiSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepFlussi.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepEsamiMeseAslSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepEsamiMeseAslSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepEsamiMeseAslSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepEsamiMeseAsl.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepBudgetEsameSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepBudgetEsameSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepBudgetEsameSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepBudgetEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepEsameSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepEsameSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepEsameSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepFatturatoSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepFatturatoSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepFatturatoSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepFatturato.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepMedicoCuranteSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepMedicoCuranteSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepMedicoCuranteSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepMedicoCurante.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepPrenotazioneAccettazioneSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepPrenotazioneAccettazioneSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepPrenotazioneAccettazioneSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepPrenotazioneAccettazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepRefertiMediciSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepRefertiMediciSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepRefertiMediciSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepRefertiMedici.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepPazientiAslSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepPazientiAslSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepPazientiAslSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepPazientiAsl.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet>
+    <servlet-name> RepPazientiResSvlt </servlet-name>
+    <servlet-class> com.ablia.stan.servlet.RepPazientiResSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> RepPazientiResSvlt</servlet-name>
+    <url-pattern> /admin/rep/RepPazientiRes.abl </url-pattern>
+  </servlet-mapping>
+  
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--  INVIO TESSERA SANITARIA --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--    -->
+  <servlet>
+    <servlet-name> InvioTsSvlt </servlet-name>
+    <servlet-class> com.ablia.ts.servlet.InvioTsSvlt </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> InvioTsSvlt </servlet-name>
+    <url-pattern> /admin/inviots/InvioTs.abl </url-pattern>
+  </servlet-mapping>
+  <!--    --> 
+  <!-- ************************ --> 
+  <!-- ************************ --> 
+  <!--  MAPPINGS VECCHIA VERSIONE --> 
+  <!-- ************************ --> 
+  <!-- ************************ -->   
+ <!-- *********************  -->
+  <!-- *********************  -->
+  <!--      AUDIO       -->
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AbliaVrSvlt</servlet-name>
+    <url-pattern> /ref/AbliaVr.abl </url-pattern>
+  </servlet-mapping>
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--      ANAGRAFICHE  ablia.anag      -->
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--   
+  <servlet-mapping>
+    <servlet-name> NazioneSvlt </servlet-name>
+    <url-pattern> /admin/anag/config/Nazione.abl </url-pattern>
+  </servlet-mapping>-->
+  <!--   
+  <servlet-mapping>
+    <servlet-name> IvaSvlt </servlet-name>
+    <url-pattern> /admin/anag/config/Iva.abl </url-pattern>
+  </servlet-mapping> -->
+
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--      ANAGRAFICHE       -->
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> ClienteSvlt</servlet-name>
+    <url-pattern> /anag/Cliente.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> UslSvlt</servlet-name>
+    <url-pattern> /anag/Usl.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> MedicoCuranteSvlt</servlet-name>
+    <url-pattern> /anag/MedicoCurante.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> MedicoEsaminatoreSvlt</servlet-name>
+    <url-pattern> /anag/MedicoEsaminatore.abl </url-pattern>
+  </servlet-mapping> 
+   <!--    -->
+  <servlet-mapping>
+    <servlet-name> TecnicoEsecutoreSvlt</servlet-name>
+    <url-pattern> /anag/TecnicoEsecutore.abl </url-pattern>
+  </servlet-mapping>
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--      ANAGRAFICHE   CONFIG    -->
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> StrumentoFSvlt</servlet-name>
+    <url-pattern> /anag/config//Strumento.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> TerapiaFSvlt</servlet-name>
+    <url-pattern> /anag/config/Terapia.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> ContoSvlt</servlet-name>
+    <url-pattern> /anag/config/Conto.abl </url-pattern>
+  </servlet-mapping>
+  <!--  
+  <servlet-mapping>
+    <servlet-name> ComuneStanSvlt</servlet-name>
+    <url-pattern> /anag/config/Comune.abl </url-pattern>
+  </servlet-mapping>  -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RegioneSvlt</servlet-name>
+    <url-pattern> /anag/config/Regione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> TipoAziendaSvlt</servlet-name>
+    <url-pattern> /anag/config/TipoAzienda.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AssociazioneSvlt</servlet-name>
+    <url-pattern> /anag/config/Associazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> SpecializzazioneSvlt</servlet-name>
+    <url-pattern> /anag/config/Specializzazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> TipoMedicoSvlt</servlet-name>
+    <url-pattern> /anag/config/TipoMedico.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> BrancaEsameSvlt</servlet-name>
+    <url-pattern> /anag/config/BrancaEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> CategoriaEsameSvlt</servlet-name>
+    <url-pattern> /anag/config/CategoriaEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> TipoEsameSvlt</servlet-name>
+    <url-pattern> /anag/config/TipoEsame.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> TipoEsameSvlt</servlet-name>
+    <url-pattern> /anag/config/TipoEsame.abl.pdf </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> GruppoEsameSvlt</servlet-name>
+    <url-pattern> /anag/config/GruppoEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> MotivoEsenzioneSvlt</servlet-name>
+    <url-pattern> /anag/config/MotivoEsenzione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> CodiceEsenzioneSvlt</servlet-name>
+    <url-pattern> /anag/config/CodiceEsenzione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> EsenzioneSvlt</servlet-name>
+    <url-pattern> /anag/config/Esenzione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> PuntoEroganteSvlt</servlet-name>
+    <url-pattern> /anag/config/PuntoErogante.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> FestivitaSvlt</servlet-name>
+    <url-pattern> /anag/config/Festivita.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> EgrMaxMinSvlt</servlet-name>
+    <url-pattern> /anag/config/EgrMaxMin.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> GravTipoMaxMinSvlt</servlet-name>
+    <url-pattern> /anag/config/GravTipoMaxMin.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> GravGraficoSvlt</servlet-name>
+    <url-pattern> /anag/config/GravGrafico.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> GravParmDerivatiSvlt</servlet-name>
+    <url-pattern> /anag/config/GravParmDerivati.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> GravTipoMisuraSvlt</servlet-name>
+    <url-pattern> /anag/config/GravTipoMisura.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RecordSpaSvlt</servlet-name>
+    <url-pattern> /anag/config/RecordSpa.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> ModPagamentoStanSvlt</servlet-name>
+    <url-pattern> /admin/anag/config/ModPagamento.abl </url-pattern>
+  </servlet-mapping>
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--     GESTIONE          -->
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AccettazioneSvlt</servlet-name>
+    <url-pattern> /gest/Accettazione.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> AccettazioneSvlt</servlet-name>
+    <url-pattern> /gest/Accettazione.abl.pdf </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> ImpegnativaSvlt</servlet-name>
+    <url-pattern> /gest/Impegnativa.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> CalDispoSvlt</servlet-name>
+    <url-pattern> /gest/CalDispo.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> GeneraDispoSvlt</servlet-name>
+    <url-pattern> /gest/GeneraDispo.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> GeneraPrenoCupSvlt</servlet-name>
+    <url-pattern> /gest/GeneraPrenoCup.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> DisponibilitaSvlt</servlet-name>
+    <url-pattern> /gest/Disponibilita.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> PrenotazioneSvlt</servlet-name>
+    <url-pattern> /gest/Prenotazione.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> PrenotazioneSvlt</servlet-name>
+    <url-pattern> /gest/Prenotazione.abl.pdf </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> PrenotazioneCRSvlt</servlet-name>
+    <url-pattern> /gest/PrenotazioneCR.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> FatturaSvlt</servlet-name>
+    <url-pattern> /gest/Fattura.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> FatturaSvlt</servlet-name>
+    <url-pattern> /gest/Fattura.abl.pdf </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RigaFatturaSvlt</servlet-name>
+    <url-pattern> /gest/RigaFattura.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> FlussoFattSvlt</servlet-name>
+    <url-pattern> /gest/FlussoFatt.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> FlussoAccSvlt</servlet-name>
+    <url-pattern> /gest/FlussoAcc.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AccFattSvlt</servlet-name>
+    <url-pattern> /gest/AccFatt.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> EsameSvlt</servlet-name>
+    <url-pattern> /gest/Esame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/ref/img/*</url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/ref/imgJpg/*</url-pattern>
+  </servlet-mapping>
+      <!--    -->
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/ref/imgJpgSrc/*</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/ref/word/*</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name>GetFileSvlt</servlet-name>
+    <url-pattern>/anag/word/*</url-pattern>
+  </servlet-mapping>
+ <!-- *********************  -->
+  <!-- *********************  -->
+  <!--     GESTIONE     FISIO     -->
+  <!-- *********************  -->
+  <!-- *********************  -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AccettazioneFSvlt</servlet-name>
+    <url-pattern> /gestFisio/Accettazione.abl </url-pattern>
+  </servlet-mapping>
+ <!--    -->
+  <servlet-mapping>
+    <servlet-name> DisponibilitaFSvlt</servlet-name>
+    <url-pattern> /gestFisio/Disponibilita.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> PrenotazioneFSvlt</servlet-name>
+    <url-pattern> /gestFisio/Prenotazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> FatturaFSvlt</servlet-name>
+    <url-pattern> /gestFisio/Fattura.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RigaFatturaFSvlt</servlet-name>
+    <url-pattern> /gestFisio/RigaFattura.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AccFattFSvlt</servlet-name>
+    <url-pattern> /gestFisio/AccFatt.abl </url-pattern>
+  </servlet-mapping>
+
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--      REFERTAZIONE     -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> Idc9Svlt</servlet-name>
+    <url-pattern> /ref/config/Idc9.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> Idc9Svlt</servlet-name>
+    <url-pattern> /ref/Idc9.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> ShortcutSvlt</servlet-name>
+    <url-pattern> /ref/config/Shortcut.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> PostazioneSvlt</servlet-name>
+    <url-pattern> /ref/config/Postazione.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> ArchivioImgSvlt</servlet-name>
+    <url-pattern> /ref/config/ArchivioImg.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> ArchivioDvdSvlt</servlet-name>
+    <url-pattern> /ref/config/ArchivioDvd.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RefertoSvlt</servlet-name>
+    <url-pattern> /ref/Referto.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> RefertoImgSvlt</servlet-name>
+    <url-pattern> /ref/RefertoImg.abl </url-pattern>
+  </servlet-mapping>
+ <!--    -->
+  <servlet-mapping>
+    <servlet-name> RefertoOldSvlt</servlet-name>
+    <url-pattern> /ref/RefertoOld.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RefertoAutoSvlt</servlet-name>
+    <url-pattern> /ref/RefertoAuto.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> EcoGravidanzaSvlt</servlet-name>
+    <url-pattern> /ref/EcoGravidanza.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RefertoFooterSvlt</servlet-name>
+    <url-pattern> /ref/config/RefertoFooter.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AllegatoRefertiSvlt</servlet-name>
+    <url-pattern> /ref/config/AllegatoReferti.abl </url-pattern>
+  </servlet-mapping>
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--      REPORT     -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepFlussiSvlt</servlet-name>
+    <url-pattern> /rep/RepFlussi.abl </url-pattern>
+  </servlet-mapping>  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepEsamiMeseAslSvlt</servlet-name>
+    <url-pattern> /rep/RepEsamiMeseAsl.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepBudgetEsameSvlt</servlet-name>
+    <url-pattern> /rep/RepBudgetEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepEsameSvlt</servlet-name>
+    <url-pattern> /rep/RepEsame.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepFatturatoSvlt</servlet-name>
+    <url-pattern> /rep/RepFatturato.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepMedicoCuranteSvlt</servlet-name>
+    <url-pattern> /rep/RepMedicoCurante.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepPrenotazioneAccettazioneSvlt</servlet-name>
+    <url-pattern> /rep/RepPrenotazioneAccettazione.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepRefertiMediciSvlt</servlet-name>
+    <url-pattern> /rep/RepRefertiMedici.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepPazientiAslSvlt</servlet-name>
+    <url-pattern> /rep/RepPazientiAsl.abl </url-pattern>
+  </servlet-mapping>
+     <!--    -->
+  <servlet-mapping>
+    <servlet-name> RepPazientiResSvlt</servlet-name>
+    <url-pattern> /rep/RepPazientiRes.abl </url-pattern>
+  </servlet-mapping>	
+	
+	  <!--  CONFIG OLD MAPPING   -->
+
+  <servlet-mapping>
+    <servlet-name>ParmSvlt</servlet-name>
+    <url-pattern>/admin/configOld/Parm.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>AccessSvlt</servlet-name>
+    <url-pattern>/admin/configOld/Access.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>TableDescSvlt</servlet-name>
+    <url-pattern>/admin/configOld/TableDesc.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>AccessGroupSvlt</servlet-name>
+    <url-pattern>/admin/configOld/AccessGroup.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>BlacklistSvlt</servlet-name>
+    <url-pattern>/admin/configOld/Blacklist.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>LogSvlt</servlet-name>
+    <url-pattern>/admin/configOld/Log.abl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogSvlt</servlet-name>
+    <url-pattern>/admin/configOld/Crontab.log</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>LogMailSvlt</servlet-name>
+    <url-pattern>/admin/configOld/LogMail.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>UserProfileSvlt</servlet-name>
+    <url-pattern>/admin/configOld/UserProfile.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+ 
+  <servlet-mapping>
+    <servlet-name>UsersSvlt</servlet-name>
+    <url-pattern>/admin/configOld/Users.abl</url-pattern>
+  </servlet-mapping>
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>TipoPostazioneSvlt</servlet-name>
+    <url-pattern>/admin/configOld/TipoPostazione.abl</url-pattern>
+  </servlet-mapping>
+ 
+
+  <!--    -->
+
+  <servlet-mapping>
+    <servlet-name>HelpSvlt</servlet-name>
+    <url-pattern>/admin/configOld/Help.abl</url-pattern>
+  </servlet-mapping>
+	
+</web-app>

@@ -1,0 +1,1 @@
+ alter table INVIO_TS add column`encodedFields` varchar(1000) DEFAULT NULL;

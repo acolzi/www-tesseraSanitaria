@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2.2.dtd">
+<web-app version="3.0">
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--  DESCRIZIONE WEB APPLICATION -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <display-name>TS CIATTI</display-name>
+  <description> </description>
+
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--  SICUREZZA -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <context-param>
+    <param-name>loginPage</param-name>
+    <param-value>/admin/menu/menu.jsp</param-value>
+    <description>Pagina JSP o servlet per far apparire la pagina di logon</description>
+  </context-param>
+  <context-param>
+    <param-name>secureServlet</param-name>
+    <param-value>true</param-value>
+    <description> true: web application con implementata la sicurezza false 
+      o nessun parametro: NO SICUREZZA </description>
+  </context-param>
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--  IMPOSTAZIONI DATABASE   E APPLPARM    -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <context-param>
+    <param-name>useLogonCookie</param-name>
+    <param-value>false</param-value>
+    <description> True se viene riconosciuto l'utente tramite un cooke </description>
+  </context-param>
+  <context-param>
+    <param-name>dbPropertyFile</param-name>
+    <param-value>tsciatti</param-value>
+    <description> File di propriet&agrave; degli oggetti dbadapter per questa webapplication </description>
+  </context-param>
+  <context-param>
+    <param-name>dbDriver</param-name>
+    <param-value>3</param-value>
+    <description> Driver database. 5 corrisponde a mysql </description>
+  </context-param>
+  <context-param>
+    <param-name>database</param-name>
+    <param-value>//localhost/tsciatti</param-value>
+    <description> Percorso database 10.0.0.101</description>
+  </context-param>
+  <context-param>
+    <param-name>user</param-name>
+    <param-value>root</param-value>
+    <description> Username login database </description>
+  </context-param>
+  <context-param>
+    <param-name>password</param-name>
+    <param-value>root</param-value>
+    <description> Password login database </description>
+  </context-param>
+  <context-param>
+    <param-name>initialCons</param-name>
+    <param-value>1</param-value>
+    <description> Numero di connessioni iniziali del connection pool </description>
+  </context-param>
+  <context-param>
+    <param-name>maxCons</param-name>
+    <param-value>50</param-value>
+    <description> Numero massimo di connessioni istanziate dal connection 
+      pool </description>
+  </context-param>
+  <context-param>
+    <param-name>timeout</param-name>
+    <param-value>300</param-value>
+    <description> Millisecondi di timeout dopo che non ho trovato connessioni 
+      libere e sono arrivato a maxCons </description>
+  </context-param>
+  
+  <context-param>
+    <param-name>connectionLifeTime</param-name>
+    <param-value>100</param-value>
+	 <description> Minuti massimi dopo la quale la connesione è considerata non valida. Se impostato a 0, non faccio il controllo. 
+	 Se la proprietà non c'è viene impostato a 480 minuti= 8 ore </description>
+  </context-param>
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!-- IMPOSTAZIONI VARIE   -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <context-param>
+    <param-name>pageRow</param-name>
+    <param-value>12</param-value>
+    <description> salto pagina </description>
+  </context-param>
+  <context-param>
+    <param-name>cssPath</param-name>
+    <param-value>/_css</param-value>
+    <description> </description>
+  </context-param>
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!-- SERVLET ALIASES             -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <servlet>
+    <servlet-name> MenuSvlt </servlet-name>
+    <servlet-class> com.ablia.anag.servlet.MenuSvlt </servlet-class>
+  </servlet>
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!-- INIT CRONTAB             -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+ <servlet>
+    <servlet-name>InitCrontabServlet</servlet-name>
+    <servlet-class>com.ablia.servlet.InitCrontabServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+  </servlet>
+    <!-- ************************ -->
+  <!-- ************************ -->
+  <!-- REWRITE URL           -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <servlet>
+    <servlet-name>RewriteUrlSvlt</servlet-name>
+    <servlet-class>com.ablia.servlet.RewriteUrlSvlt</servlet-class>
+  </servlet>
+  
+
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--      HELP  -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--    -->
+  <servlet>
+    <servlet-name> HelpSvlt </servlet-name>
+    <servlet-class> com.ablia.help.servlet.HelpSvlt </servlet-class>
+  </servlet>
+   <servlet>
+    <servlet-name> HelpASvlt </servlet-name>
+    <servlet-class> com.ablia.help.servlet.HelpASvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet>
+    <servlet-name> ExcludeKeywordsSvlt </servlet-name>
+    <servlet-class> com.ablia.help.servlet.ExcludeKeywordsSvlt </servlet-class>
+  </servlet>
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--      CONFIGURAZIONI   ADMIN -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--    -->
+  <servlet>
+    <servlet-name> ParmSvlt </servlet-name>
+    <servlet-class> com.ablia.servlet.ParmSvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet>
+    <servlet-name> AccessSvlt </servlet-name>
+    <servlet-class> com.ablia.servlet.AccessSvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet>
+    <servlet-name> AccessGroupSvlt </servlet-name>
+    <servlet-class> com.ablia.servlet.AccessGroupSvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet>
+    <servlet-name> BlacklistSvlt </servlet-name>
+    <servlet-class> com.ablia.servlet.BlacklistSvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet>
+    <servlet-name> LogSvlt </servlet-name>
+    <servlet-class> com.ablia.servlet.LogSvlt </servlet-class>
+  </servlet>
+    <!--    -->
+  <servlet>
+    <servlet-name> LogMailSvlt </servlet-name>
+    <servlet-class> com.ablia.servlet.LogMailSvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet>
+    <servlet-name> UserProfileSvlt </servlet-name>
+    <servlet-class> com.ablia.servlet.UserProfileSvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet>
+    <servlet-name> UsersSvlt </servlet-name>
+    <servlet-class> com.ablia.anag.servlet.UsersSvlt </servlet-class>
+  </servlet>
+  <!--    -->
+  <servlet>
+    <servlet-name> TipoPostazioneSvlt </servlet-name>
+    <servlet-class> com.ablia.common.servlet.TipoPostazioneSvlt </servlet-class>
+  </servlet>
+	<!-- -->
+  <servlet> 
+	<servlet-name> MailerSvlt </servlet-name>
+	<servlet-class> com.ablia.servlet.AcMailer </servlet-class>
+  </servlet>
+ 
+ 
+ 	<!-- ************************ -->
+	<!-- ************************ -->
+	<!--  INVIO TESSERA SANITARIA -->
+	<!-- ************************ -->
+	<!-- ************************ -->
+	<!--    -->
+	<servlet>
+		<servlet-name> InvioTsSvlt </servlet-name>
+		<servlet-class> com.ablia.ts.servlet.InvioTsSvlt </servlet-class>
+	</servlet>
+	<!--    -->
+	<servlet-mapping>
+		<servlet-name> InvioTsSvlt </servlet-name>
+		<url-pattern> /admin/inviots/InvioTs.abl </url-pattern>
+	</servlet-mapping>
+
+
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--  MAPPINGS                -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <servlet-mapping>
+    <servlet-name> MenuSvlt </servlet-name>
+    <url-pattern> /admin/menu/Menu.abl </url-pattern>
+  </servlet-mapping>
+<!-- ************************ -->
+  <!-- REWRITE URL           -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+    <servlet-mapping>
+    <servlet-name>RewriteUrlSvlt</servlet-name>
+    <url-pattern>*.jspx</url-pattern>
+  </servlet-mapping>
+      <servlet-mapping>
+    <servlet-name>RewriteUrlSvlt</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+  
+   <!-- ************************ -->
+  <!-- ************************ -->
+  <!--     HELP  -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> HelpSvlt </servlet-name>
+    <url-pattern> /admin/help/v/H.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> HelpASvlt </servlet-name>
+    <url-pattern> /admin/help/Help.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> ExcludeKeywordsSvlt </servlet-name>
+    <url-pattern> /admin/help/ExcludeKeywords.abl </url-pattern>
+  </servlet-mapping>
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--      CONFIGURAZIONI    ADMIN  -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> ParmSvlt </servlet-name>
+    <url-pattern> /admin/config/Parm.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AccessSvlt </servlet-name>
+    <url-pattern> /admin/config/Access.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> AccessGroupSvlt </servlet-name>
+    <url-pattern> /admin/config/AccessGroup.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> BlacklistSvlt </servlet-name>
+    <url-pattern> /admin/config/Blacklist.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> LogSvlt </servlet-name>
+    <url-pattern> /admin/config/Log.abl </url-pattern>
+  </servlet-mapping>
+  <!--  ricordarsi di mettere su apache JkMount /*Crontab.log ajp13  -->
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> LogMailSvlt </servlet-name>
+    <url-pattern> /admin/config/LogMail.abl </url-pattern>
+  </servlet-mapping>
+    <!--    -->
+  <servlet-mapping>
+    <servlet-name> LogSvlt </servlet-name>
+    <url-pattern> /admin/config/Crontab.log </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> UserProfileSvlt </servlet-name>
+    <url-pattern> /admin/config/UserProfile.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> UsersSvlt </servlet-name>
+    <url-pattern> /admin/config/Users.abl </url-pattern>
+  </servlet-mapping>
+  <!--    -->
+  <servlet-mapping>
+    <servlet-name> TipoPostazioneSvlt </servlet-name>
+    <url-pattern> /admin/config/TipoPostazione.abl </url-pattern>
+  </servlet-mapping>
+  
+	<!-- -->
+  <servlet-mapping> 
+	<servlet-name> MailerSvlt </servlet-name>
+	<url-pattern> /Mailer.abl </url-pattern>
+  </servlet-mapping>
+
+
+
+
+
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <!--  TAGLIB ABLIA -->
+  <!-- ************************ -->
+  <!-- ************************ -->
+  <taglib>
+    <taglib-uri> ABLIATAGS </taglib-uri>
+    <taglib-location> /WEB-INF/ablia.tld </taglib-location>
+  </taglib>
+</web-app>
